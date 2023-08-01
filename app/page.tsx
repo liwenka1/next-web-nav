@@ -14,7 +14,7 @@ export default async function IndexPage() {
         </div>
         <div className="sm:pl-[16rem]">
           <SiteHeader />
-          <LinkContent navResources={123} />
+          <LinkContent />
           <SiteFooter />
         </div>
       </div>
