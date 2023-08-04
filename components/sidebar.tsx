@@ -1,22 +1,49 @@
 "use client"
 
 import { useEffect, useState } from "react"
-import Image from "next/image"
 
 import { NavData } from "@/config/site"
 import { cn } from "@/lib/utils"
 
 export function Sidebar() {
   const [activeTabId, setActiveTabId] = useState(0)
-  useEffect(() => {
+
+  const scroll = (activeTabId: number) => {
     const ele = document.getElementById(String(activeTabId))
-    const elePosition = ele?.getBoundingClientRect().top || 0
-    const offsetPosition = elePosition + window.scrollY - 75
+    if (ele) {
+      const elePosition = ele.getBoundingClientRect().top
+      const offsetPosition = elePosition + window.scrollY - 99
+      window.scrollTo({
+        top: offsetPosition,
+        behavior: "smooth",
+      })
+    }
+  }
+
+  const scrollUpdate = () => {
+    const ele = document.getElementById("main")
+    if (ele) {
+      const childElements = Array.from(ele.children)
+      for (let children of childElements) {
+        const top = children.getBoundingClientRect().top
+        if (top < 100) {
+          setActiveTabId(Number(children.id))
+        }
+      }
+    }
+  }
+
+  useEffect(() => {
     window.scrollTo({
-      top: offsetPosition,
-      behavior: "smooth",
+      top: 0,
+      behavior: "instant",
     })
-  }, [activeTabId])
+    window.addEventListener("scroll", scrollUpdate)
+    return () => {
+      // 组件销毁时移除监听事件
+      window.removeEventListener("scroll", scrollUpdate)
+    }
+  }, [])
   return (
     <nav className="after:h-[calc(100vh - 65px)] block min-h-screen w-60 flex-row flex-nowrap bg-gray-50 font-semibold sm:bg-background sm:px-6 sm:pb-6">
       <div className="mx-6 hidden h-14 flex-col items-center justify-center sm:flex"></div>
@@ -35,7 +62,7 @@ export function Sidebar() {
                             : "text-primary"
                         }`}
                         key={index}
-                        onClick={() => setActiveTabId(index)}
+                        onClick={() => scroll(index)}
                       >
                         <div className="scale relative mb-2 flex items-center gap-2 rounded-r-lg p-2 transition-colors ease-in-out before:transition-colors hover:no-underline sm:border-l-0 sm:pl-6 sm:before:absolute sm:before:left-[-5px] sm:before:top-[2px] sm:before:h-[calc(100%-4px)] sm:before:w-[10px] sm:before:rounded-full sm:before:transition-colors">
                           <span className="truncate text-sm">

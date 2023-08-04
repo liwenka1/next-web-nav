@@ -7,7 +7,7 @@ export const siteConfig = {
   mainNav: [],
   links: {
     twitter: "https://twitter.com/liwenka1",
-    github: "https://github.com/liwenka1",
+    github: "https://github.com/liwenka1/next-web-nav",
     docs: "https://ui.shadcn.com",
   },
 }
