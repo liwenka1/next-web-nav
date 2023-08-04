@@ -36,7 +36,7 @@ export function Sidebar() {
   useEffect(() => {
     window.scrollTo({
       top: 0,
-      behavior: "instant",
+      behavior: "instant" as ScrollBehavior,
     })
     window.addEventListener("scroll", scrollUpdate)
     return () => {
