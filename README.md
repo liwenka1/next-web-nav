@@ -7,7 +7,7 @@
   <img src="/public/next-web-nav-phone.png"  alt="next-web-nav-phone">
 </P>
 
-<p align="center"> 基于 <b>Next.js</b> 的个人前端导航页面模板 </p>
+<p align="center"> 基于 <b>Next.js</b> 的前端导航网站 </p>
 
 ---
 

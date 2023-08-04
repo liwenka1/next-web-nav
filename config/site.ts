@@ -1,14 +1,13 @@
 export type SiteConfig = typeof siteConfig
 
 export const siteConfig = {
-  name: "Next.js",
+  name: "前端导航",
   description:
-    "Beautifully designed components built with Radix UI and Tailwind CSS.",
+    "基于 Next.js 的前端导航网站",
   mainNav: [],
   links: {
     twitter: "https://twitter.com/liwenka1",
-    github: "https://github.com/liwenka1/next-web-nav",
-    docs: "https://ui.shadcn.com",
+    github: "https://github.com/liwenka1/next-web-nav"
   },
 }
 
@@ -582,6 +581,12 @@ export const NavData: NavData[] = [
         desc: "一站式完成原型、设计、交互与交付，为数字化团队协作提效",
         icon: "https://cms.pixso.cn/images/logo.svg",
         link: "https://pixso.cn/",
+      },
+      {
+        title: "AIDesign",
+        desc: "10秒创建您的LOGO！",
+        icon: "https://ailogo.qq.com//favicon.ico?v=1.1",
+        link: "https://ailogo.qq.com/",
       },
     ],
   },
