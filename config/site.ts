@@ -2,12 +2,11 @@ export type SiteConfig = typeof siteConfig
 
 export const siteConfig = {
   name: "前端导航",
-  description:
-    "基于 Next.js 的前端导航网站",
+  description: "基于 Next.js 的前端导航网站",
   mainNav: [],
   links: {
     twitter: "https://twitter.com/liwenka1",
-    github: "https://github.com/liwenka1/next-web-nav"
+    github: "https://github.com/liwenka1/next-web-nav",
   },
 }
 
