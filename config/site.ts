@@ -849,7 +849,7 @@ export const NavData: NavData[] = [
         title: "知乎",
         icon: "https://static.zhihu.com/heifetz/assets/apple-touch-icon-60.362a8eac.png",
         desc: "中文互联网高质量的问答社区和创作者聚集的原创内容平台",
-        link: "https://juejin.cn",
+        link: "https://zhihu.com",
       },
     ],
   },
