@@ -28,7 +28,7 @@
 
 ## 预览地址
 
-- [前端导航](https://websitenav.asia)
+- [前端导航](https://nav.liwenkai.fun)
 <a name="WY0P3"></a>
 ## 功能介绍
 
