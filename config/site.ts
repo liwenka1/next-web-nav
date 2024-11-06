@@ -411,6 +411,12 @@ export const NavData: NavData[] = [
     title: "Node",
     items: [
       {
+        icon: "https://deno.com/logo.svg",
+        title: "deno",
+        desc: "Deno is the open-source JavaScript runtime for the modern web.",
+        link: "https://deno.com/",
+      },
+      {
         icon: "https://nodejs.org/static/images/favicons/favicon.png",
         title: "Node.js",
         desc: "Node.js 是一个基于 Chrome V8 引擎的 JavaScript 运行环境",
