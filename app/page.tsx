@@ -3,9 +3,7 @@ import { Sidebar } from "@/components/sidebar"
 import { SiteFooter } from "@/components/site-footer"
 import { SiteHeader } from "@/components/site-header"
 
-export const revalidate = 24 * 60 * 60
-
-export default async function IndexPage() {
+export default function IndexPage() {
   return (
     <div className="container relative mx-auto min-h-screen w-full px-0">
       <div className="flex">
