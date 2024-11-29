@@ -1,10 +1,14 @@
 /** @type {import('prettier').Config} */
 module.exports = {
-  endOfLine: "lf",
-  semi: false,
-  singleQuote: false,
+  plugins: ["prettier-plugin-tailwindcss", "@ianvs/prettier-plugin-sort-imports"],
+  printWidth: 120,
   tabWidth: 2,
-  trailingComma: "es5",
+  useTabs: false,
+  singleQuote: false,
+  semi: false,
+  trailingComma: "none",
+  bracketSpacing: true,
+  endOfLine: "lf",
   importOrder: [
     "^(react/(.*)$)|^(react$)",
     "^(next/(.*)$)|^(next$)",
@@ -20,13 +24,12 @@ module.exports = {
     "^@/styles/(.*)$",
     "^@/app/(.*)$",
     "",
-    "^[./]",
+    "^[./]"
   ],
   importOrderSeparation: false,
   importOrderSortSpecifiers: true,
   importOrderBuiltinModulesToTop: true,
   importOrderParserPlugins: ["typescript", "jsx", "decorators-legacy"],
   importOrderMergeDuplicateImports: true,
-  importOrderCombineTypeAndValueImports: true,
-  plugins: ["@ianvs/prettier-plugin-sort-imports"],
+  importOrderCombineTypeAndValueImports: true
 }
