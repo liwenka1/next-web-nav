@@ -19,9 +19,20 @@
 
 ## 效果图
 <p align="center">
-  <img src="/public/next-web-nav-pc.png"  alt="next-web-nav-pc">
-  <img src="/public/next-web-nav-phone.png"  alt="next-web-nav-phone">
+  <img src="/public/next-web-nav-pc.png" >
+  <img src="/public/next-web-nav-pc-dark.png" >
+  <img src="/public/next-web-nav-pc-search.png" >
+  <img src="/public/next-web-nav-pc-dark-search.png" >
 </P>
+
+<p align="center">
+  <img src="/public/next-web-nav-phone.png" style="width: 45%; margin: 5px;">
+  <img src="/public/next-web-nav-phone-search.png" style="width: 45%; margin: 5px;">
+</p>
+<p align="center">
+  <img src="/public/next-web-nav-phone-dark.png" style="width: 45%; margin: 5px;">
+  <img src="/public/next-web-nav-phone-dark-search.png" style="width: 45%; margin: 5px;">
+</p>
 
 <p align="center"> 基于 <b>Next.js</b> 的前端导航网站 </p>
 
@@ -34,6 +45,7 @@
 
 - 自带前端导航模块
 - 移动端适配
+- 支持站内搜索
 - 可通过 JSON 自定义导航数据
 - 支持日夜颜色模式切换
 - 支持 Vercel 直接部署上线
