@@ -20,6 +20,7 @@
     "class-variance-authority": "^0.4.0",
     "clsx": "^1.2.1",
     "cmdk": "1.0.0",
+    "framer-motion": "^11.16.0",
     "lucide-react": "0.105.0-alpha.4",
     "next": "^15.0.3",
     "next-themes": "^0.2.1",

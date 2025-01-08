@@ -24,7 +24,7 @@ export function Sidebar() {
     const ele = document.getElementById("main")
     if (ele) {
       const childElements = Array.from(ele.children)
-      for (let children of childElements) {
+      for (const children of childElements) {
         const top = children.getBoundingClientRect().top
         if (top < 100) {
           setActiveTabId(Number(children.id))

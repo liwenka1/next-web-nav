@@ -4,10 +4,12 @@ import Link from "next/link"
 import { useCallback, useState } from "react"
 
 import { siteConfig, NavData } from "@/config/site"
-import { Button, buttonVariants } from "@/components/ui/button"
-import { Icons } from "@/components/icons"
-import { MainNav } from "@/components/main-nav"
-import { ThemeToggle } from "@/components/theme-toggle"
+
+import { Circle, Laptop, Moon, Sun } from "lucide-react"
+import { useTheme } from "next-themes"
+import { DialogTitle } from "@radix-ui/react-dialog"
+
+import { Button } from "@/components/ui/button"
 import {
   CommandDialog,
   CommandEmpty,
@@ -17,14 +19,14 @@ import {
   CommandList,
   CommandSeparator
 } from "@/components/ui/command"
-import { Circle, Laptop, Moon, Sun } from "lucide-react"
-import { useTheme } from "next-themes"
-import { DialogTitle } from "@radix-ui/react-dialog"
+
+import { Icons } from "./components/icons"
+import { ThemeToggle } from "./components/theme-toggle"
 
 export function SiteHeader() {
   const [open, setOpen] = useState(false)
   const { setTheme } = useTheme()
-  const runCommand = useCallback((command: () => unknown) => {
+  const runCommand = useCallback((command: () => void) => {
     setOpen(false)
     command()
   }, [])
@@ -32,7 +34,6 @@ export function SiteHeader() {
   return (
     <header className="sticky top-0 z-40 w-full bg-background dark:border-slate-50/[0.06] lg:border-b lg:border-slate-900/10">
       <div className="container m-0 flex h-16 items-center space-x-4 sm:justify-between sm:space-x-0">
-        <MainNav items={siteConfig.mainNav} />
         <nav className="flex flex-1 items-center justify-end space-x-4">
           <div className="flex w-full items-center space-x-1 sm:w-auto">
             <Button
@@ -43,26 +44,16 @@ export function SiteHeader() {
               搜索网站...
             </Button>
             <Link href={siteConfig.links.github} target="_blank" rel="noreferrer">
-              <div
-                className={buttonVariants({
-                  size: "icon",
-                  variant: "ghost"
-                })}
-              >
+              <Button className="rounded-full" variant="ghost" size="icon">
                 <Icons.gitHub className="h-5 w-5" />
                 <span className="sr-only">GitHub</span>
-              </div>
+              </Button>
             </Link>
             <Link href={siteConfig.links.twitter} target="_blank" rel="noreferrer">
-              <div
-                className={buttonVariants({
-                  size: "icon",
-                  variant: "ghost"
-                })}
-              >
+              <Button className="rounded-full" variant="ghost" size="icon">
                 <Icons.twitter className="h-5 w-5 fill-current" />
                 <span className="sr-only">Twitter</span>
-              </div>
+              </Button>
             </Link>
             <ThemeToggle />
           </div>
