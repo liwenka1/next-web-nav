@@ -1,6 +1,7 @@
 "use client"
 
 import { useEffect, useState } from "react"
+import { AnimatePresence, motion } from "framer-motion"
 
 import { NavData } from "@/config/site"
 import { cn } from "@/lib/utils"
@@ -44,6 +45,9 @@ export function Sidebar() {
       window.removeEventListener("scroll", scrollUpdate)
     }
   }, [])
+
+  const [hoveredIndex, setHoveredIndex] = useState<number | null>(null)
+
   return (
     <nav className="after:h-[calc(100vh - 65px)] block min-h-screen w-60 flex-row flex-nowrap bg-gray-50 font-semibold sm:bg-background sm:px-6 sm:pb-6">
       <div className="mx-6 hidden h-14 flex-col items-center justify-center sm:flex"></div>
@@ -56,13 +60,30 @@ export function Sidebar() {
                   {NavData.map((category, index) => {
                     return (
                       <div
-                        className={`block cursor-pointer rounded-lg hover:bg-gray-100 hover:text-purple-500 ${
-                          activeTabId === index ? "bg-gray-100 text-purple-500" : "text-primary"
-                        }`}
+                        className={`relative block cursor-pointer rounded-lg transition-colors ease-in-out ${activeTabId === index ? "bg-accent" : ""}`}
                         key={index}
                         onClick={() => scroll(index)}
+                        onMouseEnter={() => setHoveredIndex(index)}
+                        onMouseLeave={() => setHoveredIndex(null)}
                       >
-                        <div className="scale relative mb-2 flex items-center gap-2 rounded-r-lg p-2 transition-colors ease-in-out before:transition-colors hover:no-underline sm:border-l-0 sm:pl-6 sm:before:absolute sm:before:left-[-5px] sm:before:top-[2px] sm:before:h-[calc(100%-4px)] sm:before:w-[10px] sm:before:rounded-full sm:before:transition-colors">
+                        <AnimatePresence>
+                          {hoveredIndex === index && (
+                            <motion.span
+                              className="absolute inset-0 block h-full w-full rounded-lg bg-accent"
+                              layoutId="hoverScrollBackground"
+                              initial={{ opacity: 0 }}
+                              animate={{
+                                opacity: 1,
+                                transition: { duration: 0.15 }
+                              }}
+                              exit={{
+                                opacity: 0,
+                                transition: { duration: 0.15, delay: 0.2 }
+                              }}
+                            />
+                          )}
+                        </AnimatePresence>
+                        <div className="relative z-10 mb-2 flex items-center gap-2 rounded-r-lg p-2 transition-colors ease-in-out before:transition-colors hover:no-underline sm:border-l-0 sm:pl-6 sm:before:absolute sm:before:left-[-5px] sm:before:top-[2px] sm:before:h-[calc(100%-4px)] sm:before:w-[10px] sm:before:rounded-full sm:before:transition-colors">
                           <span className="truncate text-sm">{category.title}</span>
                         </div>
                       </div>

@@ -16,7 +16,7 @@ export const HoverEffect = ({
   }[]
   className?: string
 }) => {
-  let [hoveredIndex, setHoveredIndex] = useState<number | null>(null)
+  const [hoveredIndex, setHoveredIndex] = useState<number | null>(null)
 
   return (
     <div className={cn("grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3", className)}>
@@ -32,7 +32,7 @@ export const HoverEffect = ({
           <AnimatePresence>
             {hoveredIndex === idx && (
               <motion.span
-                className="absolute inset-0 block h-full w-full rounded-3xl bg-neutral-200 dark:bg-slate-800/[0.8]"
+                className="absolute inset-0 block h-full w-full rounded-xl bg-accent"
                 layoutId="hoverBackground"
                 initial={{ opacity: 0 }}
                 animate={{
@@ -69,7 +69,7 @@ export const Card = ({ className, children }: { className?: string; children: Re
   return (
     <div
       className={cn(
-        "relative z-20 h-full w-full overflow-hidden rounded-2xl border bg-background p-2 shadow-md",
+        "relative z-20 h-full w-full overflow-hidden rounded-lg border bg-background p-2 shadow-md",
         className
       )}
     >
@@ -80,10 +80,8 @@ export const Card = ({ className, children }: { className?: string; children: Re
   )
 }
 export const CardTitle = ({ className, children }: { className?: string; children: React.ReactNode }) => {
-  return (
-    <h4 className={cn("mt-2 flex items-center gap-3 font-bold tracking-wide text-primary", className)}>{children}</h4>
-  )
+  return <h4 className={cn("mt-2 flex items-center gap-3 font-bold tracking-wide", className)}>{children}</h4>
 }
 export const CardDescription = ({ className, children }: { className?: string; children: React.ReactNode }) => {
-  return <p className={cn("mt-4 text-sm leading-relaxed tracking-wide text-primary", className)}>{children}</p>
+  return <p className={cn("mt-4 text-sm leading-relaxed tracking-wide", className)}>{children}</p>
 }
