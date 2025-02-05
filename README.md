@@ -21,17 +21,11 @@
 <p align="center">
   <img src="/public/next-web-nav-pc.png" >
   <img src="/public/next-web-nav-pc-dark.png" >
-  <img src="/public/next-web-nav-pc-search.png" >
-  <img src="/public/next-web-nav-pc-dark-search.png" >
 </P>
 
 <p align="center">
   <img src="/public/next-web-nav-phone.png" style="width: 45%; margin: 5px;">
-  <img src="/public/next-web-nav-phone-search.png" style="width: 45%; margin: 5px;">
-</p>
-<p align="center">
   <img src="/public/next-web-nav-phone-dark.png" style="width: 45%; margin: 5px;">
-  <img src="/public/next-web-nav-phone-dark-search.png" style="width: 45%; margin: 5px;">
 </p>
 
 <p align="center"> 基于 <b>Next.js</b> 的前端导航网站 </p>
