@@ -47,7 +47,14 @@ export function LinkContent() {
             联系我
           </div>
           <div>
-            <Image src="/weixin.jpg" className="float-left md:w-1/4" alt="kk想当程序员" width={318} height={318} />
+            <Image
+              src="/weixin.jpg"
+              className="float-left md:w-1/4"
+              alt="kk想当程序员"
+              width={318}
+              height={318}
+              unoptimized
+            />
           </div>
         </div>
       </div>

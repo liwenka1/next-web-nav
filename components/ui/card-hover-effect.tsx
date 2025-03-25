@@ -54,6 +54,7 @@ export const HoverEffect = ({
                 alt=""
                 width={40}
                 height={40}
+                unoptimized
               />
               {item.title}
             </CardTitle>
