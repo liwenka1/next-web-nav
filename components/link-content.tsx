@@ -3,10 +3,12 @@
 import Image from "next/image"
 import Link from "next/link"
 
-import { NavData } from "@/config/site"
 import { HoverEffect } from "@/components/ui/card-hover-effect"
+import { useConfigStore } from "@/store"
 
 export function LinkContent() {
+  const { NavData } = useConfigStore()
+
   return (
     <div className="w-full pb-96 pt-4">
       <div id="main" className="mx-auto w-full px-4 md:px-6">

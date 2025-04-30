@@ -3,8 +3,8 @@
 import { useEffect, useState } from "react"
 import { AnimatePresence, motion } from "framer-motion"
 
-import { NavData } from "@/config/site"
 import { cn } from "@/lib/utils"
+import { useConfigStore } from "@/store"
 
 export function Sidebar() {
   const [activeTabId, setActiveTabId] = useState(0)
@@ -47,6 +47,7 @@ export function Sidebar() {
   }, [])
 
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null)
+  const { NavData } = useConfigStore()
 
   return (
     <nav className="after:h-[calc(100vh - 65px)] block min-h-screen w-60 flex-row flex-nowrap bg-gray-50 font-semibold sm:bg-background sm:px-6 sm:pb-6">

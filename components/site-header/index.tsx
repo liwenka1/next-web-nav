@@ -3,7 +3,7 @@
 import Link from "next/link"
 import { useCallback, useState } from "react"
 
-import { siteConfig, NavData } from "@/config/site"
+import { siteConfig } from "@/config/site"
 
 import { Circle, Laptop, Moon, Sun } from "lucide-react"
 import { useTheme } from "next-themes"
@@ -22,6 +22,7 @@ import {
 
 import { Icons } from "./components/icons"
 import { ThemeToggle } from "./components/theme-toggle"
+import { useConfigStore } from "@/store"
 
 export function SiteHeader() {
   const [open, setOpen] = useState(false)
@@ -30,6 +31,8 @@ export function SiteHeader() {
     setOpen(false)
     command()
   }, [])
+
+  const { NavData } = useConfigStore()
 
   return (
     <header className="sticky top-0 z-40 w-full bg-background dark:border-slate-50/[0.06] lg:border-b lg:border-slate-900/10">

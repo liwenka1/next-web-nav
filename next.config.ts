@@ -11,6 +11,9 @@ const nextConfig: NextConfig = {
         hostname: "**"
       }
     ]
+  },
+  compiler: {
+    removeConsole: true
   }
 }
 
