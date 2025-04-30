@@ -4,7 +4,7 @@ import { useEffect, useState } from "react"
 import { AnimatePresence, motion } from "framer-motion"
 
 import { cn } from "@/lib/utils"
-import { useConfigStore } from "@/store"
+import { useConfigStore } from "@/stores"
 
 export function Sidebar() {
   const [activeTabId, setActiveTabId] = useState(0)
@@ -47,7 +47,7 @@ export function Sidebar() {
   }, [])
 
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null)
-  const { NavData } = useConfigStore()
+  const { categories } = useConfigStore()
 
   return (
     <nav className="after:h-[calc(100vh - 65px)] block min-h-screen w-60 flex-row flex-nowrap bg-gray-50 font-semibold sm:bg-background sm:px-6 sm:pb-6">
@@ -58,7 +58,7 @@ export function Sidebar() {
             <div className="space-y-4 pb-4">
               <div className="py-2">
                 <div className="space-y-1">
-                  {NavData.map((category, index) => {
+                  {categories.map((category, index) => {
                     return (
                       <div
                         className={`relative block cursor-pointer rounded-lg transition-colors ease-in-out ${activeTabId === index ? "bg-accent" : ""}`}

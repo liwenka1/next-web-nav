@@ -22,7 +22,7 @@ import {
 
 import { Icons } from "./components/icons"
 import { ThemeToggle } from "./components/theme-toggle"
-import { useConfigStore } from "@/store"
+import { useConfigStore } from "@/stores"
 
 export function SiteHeader() {
   const [open, setOpen] = useState(false)
@@ -32,7 +32,7 @@ export function SiteHeader() {
     command()
   }, [])
 
-  const { NavData } = useConfigStore()
+  const { categories } = useConfigStore()
 
   return (
     <header className="sticky top-0 z-40 w-full bg-background dark:border-slate-50/[0.06] lg:border-b lg:border-slate-900/10">
@@ -67,7 +67,7 @@ export function SiteHeader() {
         <CommandInput placeholder="Type a command or search..." />
         <CommandList>
           <CommandEmpty>No results found.</CommandEmpty>
-          {NavData.map((category) => (
+          {categories.map((category) => (
             <CommandGroup heading={category.title} key={category.title}>
               {category.items.map((navItem) => (
                 <CommandItem

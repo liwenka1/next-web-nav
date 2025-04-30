@@ -4,15 +4,15 @@ import Image from "next/image"
 import Link from "next/link"
 
 import { HoverEffect } from "@/components/ui/card-hover-effect"
-import { useConfigStore } from "@/store"
+import { useConfigStore } from "@/stores"
 
 export function LinkContent() {
-  const { NavData } = useConfigStore()
+  const { categories } = useConfigStore()
 
   return (
     <div className="w-full pb-96 pt-4">
       <div id="main" className="mx-auto w-full px-4 md:px-6">
-        {NavData.map((category, index) => {
+        {categories.map((category, index) => {
           return (
             <div id={String(index)} key={index} className="mb-12">
               <div className="my-4">
