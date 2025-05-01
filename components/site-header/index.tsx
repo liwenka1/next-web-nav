@@ -23,6 +23,7 @@ import {
 import { Icons } from "./components/icons"
 import { ThemeToggle } from "./components/theme-toggle"
 import { useConfigStore } from "@/stores"
+import SettingDialog from "./components/setting-dialog"
 
 export function SiteHeader() {
   const [open, setOpen] = useState(false)
@@ -59,6 +60,7 @@ export function SiteHeader() {
               </Button>
             </Link>
             <ThemeToggle />
+            <SettingDialog />
           </div>
         </nav>
       </div>

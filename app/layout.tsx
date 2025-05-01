@@ -15,12 +15,7 @@ export const metadata: Metadata = {
   themeColor: [
     { media: "(prefers-color-scheme: light)", color: "white" },
     { media: "(prefers-color-scheme: dark)", color: "black" }
-  ],
-  icons: {
-    icon: "/logo.ico",
-    shortcut: "/favicon-16x16.png",
-    apple: "/apple-touch-icon.png"
-  }
+  ]
 }
 
 interface RootLayoutProps {
