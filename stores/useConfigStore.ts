@@ -2,6 +2,9 @@ import { NavData as DefaultNavConfig } from "@/config/site"
 import { create } from "zustand"
 import { createJSONStorage, persist } from "zustand/middleware"
 
+// Export initial data for reset functionality
+export const initialNavData = DefaultNavConfig
+
 // 类型命名优化：使用更明确的命名
 export interface NavLinkItem {
   icon: string
@@ -32,7 +35,7 @@ export const useConfigStore = create<NavConfigState>()(
   persist(
     (set) => ({
       // 使用更明确的初始值命名
-      categories: DefaultNavConfig,
+      categories: initialNavData, // Use the exported initialNavData here
       setCategories: (data) => set({ categories: data }),
       addCategory: (category) => set((state) => ({ categories: [...state.categories, category] })),
       updateCategory: (index, category) =>
