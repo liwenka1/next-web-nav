@@ -1,6 +1,6 @@
 {
-  "name": "next-template",
-  "version": "0.0.3",
+  "name": "next-web-nav",
+  "version": "0.0.4",
   "private": true,
   "packageManager": "pnpm@9.12.1",
   "scripts": {
@@ -20,6 +20,7 @@
     "@radix-ui/react-label": "^2.1.4",
     "@radix-ui/react-scroll-area": "^1.2.6",
     "@radix-ui/react-slot": "^1.0.2",
+    "@radix-ui/react-toast": "^1.2.13",
     "class-variance-authority": "^0.4.0",
     "clsx": "^1.2.1",
     "cmdk": "1.0.0",

@@ -10,35 +10,27 @@ import {
 } from "@/components/ui/dialog"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
-import { Settings, Trash2, PlusCircle, RotateCcw } from "lucide-react" // Import RotateCcw
-import { useConfigStore, NavCategory, NavLinkItem, initialNavData } from "@/stores" // Import initialNavData
-import { useState, useEffect } from "react" // Import useEffect
+import { Settings, Trash2, PlusCircle, RotateCcw } from "lucide-react"
+import { useConfigStore, NavCategory, NavLinkItem, initialNavData } from "@/stores"
+import { useState, useEffect } from "react"
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion"
-import { ScrollArea } from "@/components/ui/scroll-area" // Import ScrollArea
+import { ScrollArea } from "@/components/ui/scroll-area"
+import { useToast } from "@/components/ui/use-toast"
+import { cn } from "@/lib/utils"
 
 const SettingDialog = () => {
   const categories = useConfigStore((state) => state.categories)
-  // State to control dialog visibility
   const [open, setOpen] = useState(false)
-
-  // Local state to manage edits before saving
+  const [isResetting, setIsResetting] = useState(false)
   const [localCategories, setLocalCategories] = useState<NavCategory[]>([])
+  const { toast } = useToast()
 
-  // Effect to sync local state when dialog opens or categories change
   useEffect(() => {
     if (open) {
-      // Deep copy categories to local state when dialog opens
       setLocalCategories(JSON.parse(JSON.stringify(categories)))
-    } else {
-      // Optionally reset local state when dialog closes, though resetting on cancel might be enough
-      // setLocalCategories([]);
+      setIsResetting(false)
     }
   }, [open, categories])
-
-  // Remove the redundant useState for syncing
-  // useState(() => {
-  //   setLocalCategories(JSON.parse(JSON.stringify(categories)));
-  // }, [categories]);
 
   const handleCategoryChange = (index: number, field: keyof NavCategory, value: string) => {
     const updated = [...localCategories]
@@ -81,68 +73,78 @@ const SettingDialog = () => {
   }
 
   const handleSave = () => {
-    // Update the store with the local changes
     useConfigStore.setState({ categories: localCategories })
-    console.log("数据已保存!")
-    setOpen(false) // Close the dialog after saving
+    toast({
+      title: "保存成功",
+      description: "所有更改已保存并生效。",
+      duration: 3000
+    })
+    setOpen(false)
   }
 
   const handleCancel = () => {
-    // Reset local changes to match the store state
     setLocalCategories(JSON.parse(JSON.stringify(categories)))
-    setOpen(false) // Close the dialog
+    setOpen(false)
   }
 
-  // Add handleReset function
-  const handleReset = () => {
-    // Reset local state to initial data
+  const handleResetClick = () => {
+    if (!isResetting) {
+      setIsResetting(true)
+      toast({
+        title: "确认重置数据？",
+        description: "再次点击重置按钮将恢复到初始状态，此操作不可撤销。",
+        duration: 5000,
+        variant: "destructive"
+      })
+      return
+    }
+
     setLocalCategories(JSON.parse(JSON.stringify(initialNavData)))
-    // Optionally, update the store immediately or wait for save
-    // useConfigStore.setState({ categories: JSON.parse(JSON.stringify(initialNavData)) });
-    console.log("数据已重置为初始状态!")
-    // Keep the dialog open after reset to allow saving or further edits
+    setIsResetting(false)
+    toast({
+      title: "重置成功",
+      description: "数据已恢复到初始状态。",
+      duration: 3000
+    })
   }
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <Button variant="ghost" size="icon" className="rounded-full">
-          <Settings className="h-5 w-5" /> {/* Slightly larger icon */}
+        <Button variant="ghost" size="icon" className="rounded-full hover:bg-accent">
+          <Settings className="h-5 w-5" />
         </Button>
       </DialogTrigger>
-      {/* Adjust DialogContent for flex layout and height, use theme colors */}
-      <DialogContent className="flex h-[80vh] max-h-[80vh] flex-col border-border bg-card text-card-foreground sm:max-w-[600px]">
-        {/* Header remains fixed */}
-        <DialogHeader className="flex-shrink-0 border-b border-border pb-4">
-          <DialogTitle className="text-xl font-semibold">编辑网站数据</DialogTitle> {/* Larger title */}
-          <DialogDescription className="text-muted-foreground">
-            在这里修改网站导航的数据。点击保存以应用更改。
+      <DialogContent className="flex h-[80vh] max-h-[80vh] flex-col border-border bg-card text-card-foreground sm:max-w-[700px]">
+        <DialogHeader className="flex-shrink-0 space-y-1.5 border-b border-border pb-4">
+          <DialogTitle className="text-xl font-semibold tracking-tight">编辑网站数据</DialogTitle>
+          <DialogDescription className="text-sm text-muted-foreground">
+            在这里修改网站导航的数据。点击保存按钮后，所有更改将立即生效。
           </DialogDescription>
         </DialogHeader>
-        {/* Make the middle section scrollable with ScrollArea */}
-        <ScrollArea className="flex-grow py-4 pr-4">
-          {" "}
-          {/* Use ScrollArea and adjust padding */}
-          <Accordion type="multiple" className="w-full">
+
+        <ScrollArea className="flex-grow py-6 pr-6">
+          <Accordion type="multiple" className="w-full space-y-4">
             {localCategories.map((category, catIndex) => (
               <AccordionItem
                 value={`item-${catIndex}`}
                 key={catIndex}
-                className="border-b border-border last:border-b-0"
+                className="rounded-lg border border-border px-4 shadow-sm transition-colors hover:bg-accent/5"
               >
-                <AccordionTrigger className="py-3 text-base font-medium hover:no-underline">
+                <AccordionTrigger className="py-4 text-base font-medium hover:no-underline">
                   <div className="flex w-full items-center justify-between pr-2">
                     <Input
                       value={category.title}
                       onChange={(e) => handleCategoryChange(catIndex, "title", e.target.value)}
                       className="mr-2 h-8 flex-grow border-none bg-transparent p-0 text-base font-medium shadow-none focus-visible:ring-0"
-                      onClick={(e) => e.stopPropagation()} // Prevent accordion toggle when clicking input
+                      onClick={(e) => e.stopPropagation()}
+                      placeholder="输入分类名称"
                     />
                     <Button
                       variant="ghost"
                       size="icon"
                       onClick={(e) => {
-                        e.stopPropagation() // Prevent accordion toggle
+                        e.stopPropagation()
                         handleRemoveCategory(catIndex)
                       }}
                       className="h-7 w-7 text-destructive hover:bg-destructive/10 hover:text-destructive"
@@ -152,66 +154,59 @@ const SettingDialog = () => {
                   </div>
                 </AccordionTrigger>
                 <AccordionContent className="pb-4 pl-6 pr-2 pt-2">
-                  {" "}
-                  {/* Adjusted padding */}
-                  <div className="space-y-3">
+                  <div className="space-y-4">
                     {category.items.map((item, linkIndex) => (
                       <div
                         key={linkIndex}
-                        className="relative grid grid-cols-1 gap-3 rounded-md border border-border bg-muted/50 p-3"
+                        className="relative grid grid-cols-1 gap-3 rounded-md border border-border bg-card/50 p-4 shadow-sm transition-colors hover:bg-accent/5"
                       >
                         <Button
                           variant="ghost"
                           size="icon"
                           onClick={() => handleRemoveLink(catIndex, linkIndex)}
-                          className="absolute right-1 top-1 h-6 w-6 text-destructive hover:bg-destructive/10 hover:text-destructive"
+                          className="absolute right-2 top-2 h-6 w-6 text-destructive hover:bg-destructive/10 hover:text-destructive"
                         >
                           <Trash2 className="h-4 w-4" />
                         </Button>
                         <div className="grid grid-cols-4 items-center gap-3">
-                          <Label className="text-right text-sm text-muted-foreground">图标 URL</Label>
+                          <Label className="text-right text-sm font-medium text-muted-foreground">图标 URL</Label>
                           <Input
                             value={item.icon}
                             onChange={(e) => handleLinkChange(catIndex, linkIndex, "icon", e.target.value)}
                             className="col-span-3 h-8 text-sm"
-                            placeholder="https://.../icon.png"
+                            placeholder="输入图标链接，例如：https://example.com/icon.png"
                           />
                         </div>
                         <div className="grid grid-cols-4 items-center gap-3">
-                          <Label className="text-right text-sm text-muted-foreground">标题</Label>
+                          <Label className="text-right text-sm font-medium text-muted-foreground">标题</Label>
                           <Input
                             value={item.title}
                             onChange={(e) => handleLinkChange(catIndex, linkIndex, "title", e.target.value)}
                             className="col-span-3 h-8 text-sm"
-                            placeholder="网站标题"
+                            placeholder="输入网站标题"
                           />
                         </div>
                         <div className="grid grid-cols-4 items-center gap-3">
-                          <Label className="text-right text-sm text-muted-foreground">描述</Label>
+                          <Label className="text-right text-sm font-medium text-muted-foreground">描述</Label>
                           <Input
                             value={item.desc}
                             onChange={(e) => handleLinkChange(catIndex, linkIndex, "desc", e.target.value)}
                             className="col-span-3 h-8 text-sm"
-                            placeholder="网站描述"
+                            placeholder="输入网站简短描述"
                           />
                         </div>
                         <div className="grid grid-cols-4 items-center gap-3">
-                          <Label className="text-right text-sm text-muted-foreground">链接 URL</Label>
+                          <Label className="text-right text-sm font-medium text-muted-foreground">链接 URL</Label>
                           <Input
                             value={item.link}
                             onChange={(e) => handleLinkChange(catIndex, linkIndex, "link", e.target.value)}
                             className="col-span-3 h-8 text-sm"
-                            placeholder="https://example.com"
+                            placeholder="输入网站链接，例如：https://example.com"
                           />
                         </div>
                       </div>
                     ))}
-                    <Button
-                      variant="outline"
-                      size="sm"
-                      onClick={() => handleAddLink(catIndex)}
-                      className="mt-2 h-8 text-sm"
-                    >
+                    <Button variant="outline" size="sm" onClick={() => handleAddLink(catIndex)}>
                       <PlusCircle className="mr-1.5 h-4 w-4" />
                       添加链接
                     </Button>
@@ -220,25 +215,30 @@ const SettingDialog = () => {
               </AccordionItem>
             ))}
           </Accordion>
-          <Button variant="outline" onClick={handleAddCategory} className="mt-4 h-9 text-sm">
+          <Button variant="outline" onClick={handleAddCategory}>
             <PlusCircle className="mr-1.5 h-4 w-4" />
             添加分类
           </Button>
         </ScrollArea>
-        {/* Footer remains fixed, use theme colors */}
+
         <DialogFooter className="flex-shrink-0 border-t border-border pt-4">
-          {/* Add Reset button */}
-          <Button variant="destructive" onClick={handleReset} className="mr-auto h-9 text-sm">
-            <RotateCcw className="mr-1.5 h-4 w-4" />
-            重置数据
+          <Button
+            variant="destructive"
+            onClick={handleResetClick}
+            className={cn(
+              "mr-auto h-9 text-sm transition-all",
+              isResetting && "animate-pulse bg-destructive/90 hover:bg-destructive"
+            )}
+          >
+            <RotateCcw className={cn("mr-1.5 h-4 w-4", isResetting && "animate-spin")} />
+            {isResetting ? "再次点击确认重置" : "重置数据"}
           </Button>
-          {/* Cancel button now closes the dialog and resets local state */}
-          <Button variant="outline" onClick={handleCancel} className="h-9 text-sm">
-            取消
-          </Button>
-          <Button type="submit" onClick={handleSave} className="h-9 text-sm">
-            保存更改
-          </Button>
+          <div className="space-x-2">
+            <Button variant="outline" onClick={handleCancel}>
+              取消
+            </Button>
+            <Button onClick={handleSave}>保存更改</Button>
+          </div>
         </DialogFooter>
       </DialogContent>
     </Dialog>
