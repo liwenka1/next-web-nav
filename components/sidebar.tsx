@@ -54,7 +54,7 @@ export function Sidebar() {
       <div className="mx-6 hidden h-14 flex-col items-center justify-center sm:flex"></div>
       <div className="flex-start relative z-40 flex h-auto w-full flex-1 flex-col overflow-y-auto overflow-x-hidden rounded pt-4 opacity-100">
         <div className="flex list-none flex-col md:min-w-full md:flex-col">
-          <div className={cn("flex-none pb-12", "")}>
+          <div className={"flex-none pb-12"}>
             <div className="space-y-4 pb-4">
               <div className="py-2">
                 <div className="space-y-1">
