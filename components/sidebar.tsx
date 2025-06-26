@@ -2,8 +2,6 @@
 
 import { useEffect, useState } from "react"
 import { AnimatePresence, motion } from "framer-motion"
-
-import { cn } from "@/lib/utils"
 import { useConfigStore } from "@/stores"
 
 // 定义 Props 接口
@@ -64,7 +62,7 @@ export function Sidebar({ onLinkClick }: SidebarProps) {
   const { categories } = useConfigStore()
 
   return (
-    <nav className="after:h-[calc(100vh - 65px)] block min-h-screen w-60 flex-row flex-nowrap bg-gray-50 font-semibold sm:bg-background sm:px-6 sm:pb-6">
+    <nav className="after:h-[calc(100vh-65px)] block min-h-screen w-full sm:w-60 flex-row flex-nowrap bg-background font-semibold sm:bg-background px-4 sm:px-6 sm:pb-6 pt-16 sm:pt-0">
       <div className="mx-6 hidden sm:block">
         <h2 className="h-14 leading-[4rem] text-lg font-semibold tracking-tight">
           网址导航
@@ -109,6 +107,39 @@ export function Sidebar({ onLinkClick }: SidebarProps) {
                       </div>
                     )
                   })}
+                </div>
+                {/* 额外添加“联系我”导航按钮 */}
+                <div
+                  className="relative block cursor-pointer rounded-lg transition-colors ease-in-out"
+                  onClick={() => {
+                    const ele = document.getElementById("contact");
+                    if (ele) {
+                      const elePosition = ele.getBoundingClientRect().top;
+                      const offsetPosition = elePosition + window.scrollY - 99;
+                      window.scrollTo({
+                        top: offsetPosition,
+                        behavior: "smooth"
+                      });
+                    }
+                    if (onLinkClick) onLinkClick();
+                  }}
+                  onMouseEnter={() => setHoveredIndex(-1)}
+                  onMouseLeave={() => setHoveredIndex(null)}
+                >
+                  <AnimatePresence>
+                    {hoveredIndex === -1 && (
+                      <motion.span
+                        className="absolute inset-0 block h-full w-full rounded-lg bg-accent"
+                        layoutId="hoverScrollBackground"
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1, transition: { duration: 0.15 } }}
+                        exit={{ opacity: 0, transition: { duration: 0.15, delay: 0.2 } }}
+                      />
+                    )}
+                  </AnimatePresence>
+                  <div className="relative z-10 mb-2 flex items-center gap-2 rounded-r-lg p-2 transition-colors ease-in-out before:transition-colors hover:no-underline sm:border-l-0 sm:pl-6 sm:before:absolute sm:before:left-[-5px] sm:before:top-[2px] sm:before:h-[calc(100%-4px)] sm:before:w-[10px] sm:before:rounded-full sm:before:transition-colors">
+                    <span className="truncate text-sm">联系我</span>
+                  </div>
                 </div>
               </div>
             </div>

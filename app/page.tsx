@@ -6,19 +6,26 @@ import { SiteFooter } from "@/components/site-footer"
 import { SiteHeader } from "@/components/site-header"
 import { useState } from 'react';
 import { cn } from "@/lib/utils"
+import { AnimatePresence, motion } from "framer-motion"
 
 export default function IndexPage() {
   const [isSidebarOpen, setSidebarOpen] = useState(false);
 
   return (
     <div className="container relative mx-auto min-h-screen w-full px-0">
-      {isSidebarOpen && (
-        <div
-          onClick={() => setSidebarOpen(false)}
-          className="fixed inset-0 z-30 bg-black/50 sm:hidden"
-          aria-hidden="true"
-        />
-      )}
+      <AnimatePresence>
+        {isSidebarOpen && (
+          <motion.div
+            onClick={() => setSidebarOpen(false)}
+            className="fixed inset-0 z-30 bg-black/50 sm:hidden"
+            aria-hidden="true"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.2 }}
+          />
+        )}
+      </AnimatePresence>
       <div className="flex">
       {/* 传递 props */}
         <div
