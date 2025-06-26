@@ -21,9 +21,15 @@ export const HoverEffect = ({
   return (
     <div className={cn("grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3", className)}>
       {items.map((item, idx) => (
+        <motion.div
+          key={item.link}
+          initial={{ opacity: 0, y: 20 }} // 完全透明，并且在 Y 轴上向下偏移 20px
+          whileInView={{ opacity: 1, y: 0 }} // 完全不透明，Y 轴位置回归原位
+          viewport={{ once: false, amount: 0.1 }} // `once: true` 保证动画只播放一次。 `amount: 0.1` 表示元素可见10%时就触发动画
+          transition={{ duration: 0.3, delay: idx * 0.05 }} // 动画持续0.5秒，并根据索引值(idx)创建交错延迟效果
+        >
         <Link
           href={item?.link}
-          key={item?.link}
           className="group relative block h-full w-full p-2"
           onMouseEnter={() => setHoveredIndex(idx)}
           onMouseLeave={() => setHoveredIndex(null)}
@@ -41,7 +47,7 @@ export const HoverEffect = ({
                 }}
                 exit={{
                   opacity: 0,
-                  transition: { duration: 0.15, delay: 0.2 }
+                  transition: { duration: 0.15, delay: 0.2}
                 }}
               />
             )}
@@ -61,6 +67,7 @@ export const HoverEffect = ({
             <CardDescription>{item.description}</CardDescription>
           </Card>
         </Link>
+        </motion.div>
       ))}
     </div>
   )

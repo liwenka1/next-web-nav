@@ -6,7 +6,12 @@ import { AnimatePresence, motion } from "framer-motion"
 import { cn } from "@/lib/utils"
 import { useConfigStore } from "@/stores"
 
-export function Sidebar() {
+// 定义 Props 接口
+interface SidebarProps {
+  onLinkClick?: () => void;
+}
+
+export function Sidebar({ onLinkClick }: SidebarProps) {
   const [activeTabId, setActiveTabId] = useState(0)
 
   const scroll = (activeTabId: number) => {
@@ -46,12 +51,25 @@ export function Sidebar() {
     }
   }, [])
 
+
+  const handleCategoryClick = (index: number) => {
+    scroll(index);
+
+    // 如果 onLinkClick 在移动端被传入，就调用
+    if (onLinkClick) {
+      onLinkClick();
+    }
+  }
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null)
   const { categories } = useConfigStore()
 
   return (
     <nav className="after:h-[calc(100vh - 65px)] block min-h-screen w-60 flex-row flex-nowrap bg-gray-50 font-semibold sm:bg-background sm:px-6 sm:pb-6">
-      <div className="mx-6 hidden h-14 flex-col items-center justify-center sm:flex"></div>
+      <div className="mx-6 hidden sm:block">
+        <h2 className="h-14 leading-[4rem] text-lg font-semibold tracking-tight">
+          网址导航
+        </h2>
+      </div>
       <div className="flex-start relative z-40 flex h-auto w-full flex-1 flex-col overflow-y-auto overflow-x-hidden rounded pt-4 opacity-100">
         <div className="flex list-none flex-col md:min-w-full md:flex-col">
           <div className={"flex-none pb-12"}>
@@ -63,7 +81,8 @@ export function Sidebar() {
                       <div
                         className={`relative block cursor-pointer rounded-lg transition-colors ease-in-out ${activeTabId === index ? "bg-accent" : ""}`}
                         key={index}
-                        onClick={() => scroll(index)}
+                        // 新的处理函数
+                        onClick={() => handleCategoryClick(index)}
                         onMouseEnter={() => setHoveredIndex(index)}
                         onMouseLeave={() => setHoveredIndex(null)}
                       >

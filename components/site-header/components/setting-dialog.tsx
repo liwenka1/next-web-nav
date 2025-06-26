@@ -115,7 +115,8 @@ const SettingDialog = () => {
           <Settings className="h-5 w-5" />
         </Button>
       </DialogTrigger>
-      <DialogContent className="flex h-[80vh] max-h-[80vh] flex-col border-border bg-card text-card-foreground sm:max-w-[700px]">
+      {/* 修复移动端下dialogcontent 不显示圆角矩形、按钮错位等问题 */}
+      <DialogContent className="flex h-[80vh] max-h-[80vh] flex-col rounded-lg border-border bg-card text-card-foreground mx-auto px-4 sm:max-w-[640px]">
         <DialogHeader className="flex-shrink-0 space-y-1.5 border-b border-border pb-4">
           <DialogTitle className="text-xl font-semibold tracking-tight">编辑网站数据</DialogTitle>
           <DialogDescription className="text-sm text-muted-foreground">
@@ -129,30 +130,36 @@ const SettingDialog = () => {
               <AccordionItem
                 value={`item-${catIndex}`}
                 key={catIndex}
-                className="rounded-lg border border-border px-4 shadow-sm transition-colors hover:bg-accent/5"
+                className="rounded-lg border border-border shadow-sm transition-colors hover:bg-accent/5"
               >
-                <AccordionTrigger className="py-4 text-base font-medium hover:no-underline">
-                  <div className="flex w-full items-center justify-between pr-2">
+              {/* 1. 外层 flex 容器，负责整体布局。把 padding 放在这里，上面classname的px-4去掉让下面控制 */}
+                <div className="flex w-full items-center px-4">
+                  <AccordionTrigger className="flex-1 py-4 text-left hover:no-underline [&>svg]:hidden">
                     <Input
                       value={category.title}
                       onChange={(e) => handleCategoryChange(catIndex, "title", e.target.value)}
-                      className="mr-2 h-8 flex-grow border-none bg-transparent p-0 text-base font-medium shadow-none focus-visible:ring-0"
+                      className="w-full border-none bg-transparent p-0 text-base font-medium shadow-none focus-visible:ring-0"
                       onClick={(e) => e.stopPropagation()}
                       placeholder="输入分类名称"
                     />
+                  </AccordionTrigger>
+                  <div className="ml-auto flex items-center pl-4">
                     <Button
                       variant="ghost"
                       size="icon"
                       onClick={(e) => {
-                        e.stopPropagation()
-                        handleRemoveCategory(catIndex)
+                        e.stopPropagation();
+                        handleRemoveCategory(catIndex);
                       }}
-                      className="h-7 w-7 text-destructive hover:bg-destructive/10 hover:text-destructive"
+                      className="h-7 w-7 flex-shrink-0 text-destructive hover:bg-destructive/10 hover:text-destructive"
                     >
                       <Trash2 className="h-4 w-4" />
                     </Button>
+
+                    {/* 专门用来显示和点击箭头的触发器 */}
+                    <AccordionTrigger className="p-2 hover:no-underline" />
                   </div>
-                </AccordionTrigger>
+                </div>
                 <AccordionContent className="pb-4 pl-6 pr-2 pt-2">
                   <div className="space-y-4">
                     {category.items.map((item, linkIndex) => (
@@ -168,35 +175,33 @@ const SettingDialog = () => {
                         >
                           <Trash2 className="h-4 w-4" />
                         </Button>
-                        <div className="grid grid-cols-4 items-center gap-3">
-                          <Label className="text-right text-sm font-medium text-muted-foreground">图标 URL</Label>
+                        
+                        <div className="grid grid-cols-4 items-center gap-y-3 gap-x-3 pr-8">
+                          <Label className="text-sm font-medium text-muted-foreground">图标 URL</Label>
                           <Input
                             value={item.icon}
                             onChange={(e) => handleLinkChange(catIndex, linkIndex, "icon", e.target.value)}
                             className="col-span-3 h-8 text-sm"
                             placeholder="输入图标链接，例如：https://example.com/icon.png"
                           />
-                        </div>
-                        <div className="grid grid-cols-4 items-center gap-3">
-                          <Label className="text-right text-sm font-medium text-muted-foreground">标题</Label>
+
+                          <Label className="text-sm font-medium text-muted-foreground">标题</Label>
                           <Input
                             value={item.title}
                             onChange={(e) => handleLinkChange(catIndex, linkIndex, "title", e.target.value)}
                             className="col-span-3 h-8 text-sm"
                             placeholder="输入网站标题"
                           />
-                        </div>
-                        <div className="grid grid-cols-4 items-center gap-3">
-                          <Label className="text-right text-sm font-medium text-muted-foreground">描述</Label>
+
+                          <Label className="text-sm font-medium text-muted-foreground">描述</Label>
                           <Input
                             value={item.desc}
                             onChange={(e) => handleLinkChange(catIndex, linkIndex, "desc", e.target.value)}
                             className="col-span-3 h-8 text-sm"
                             placeholder="输入网站简短描述"
                           />
-                        </div>
-                        <div className="grid grid-cols-4 items-center gap-3">
-                          <Label className="text-right text-sm font-medium text-muted-foreground">链接 URL</Label>
+
+                          <Label className="text-sm font-medium text-muted-foreground">链接 URL</Label>
                           <Input
                             value={item.link}
                             onChange={(e) => handleLinkChange(catIndex, linkIndex, "link", e.target.value)}
@@ -221,24 +226,23 @@ const SettingDialog = () => {
           </Button>
         </ScrollArea>
 
-        <DialogFooter className="flex-shrink-0 border-t border-border pt-4">
+        <DialogFooter className="flex-shrink-0 flex-col-reverse gap-2 border-t border-border pt-4 sm:flex-row sm:justify-end">
           <Button
             variant="destructive"
             onClick={handleResetClick}
             className={cn(
-              "mr-auto h-9 text-sm transition-all",
+              "h-9 text-sm transition-all",
+              "sm:mr-auto", 
               isResetting && "animate-pulse bg-destructive/90 hover:bg-destructive"
             )}
           >
             <RotateCcw className={cn("mr-1.5 h-4 w-4", isResetting && "animate-spin")} />
             {isResetting ? "再次点击确认重置" : "重置数据"}
           </Button>
-          <div className="space-x-2">
             <Button variant="outline" onClick={handleCancel}>
               取消
             </Button>
             <Button onClick={handleSave}>保存更改</Button>
-          </div>
         </DialogFooter>
       </DialogContent>
     </Dialog>

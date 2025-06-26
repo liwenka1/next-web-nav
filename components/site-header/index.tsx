@@ -5,7 +5,7 @@ import { useCallback, useState } from "react"
 
 import { siteConfig } from "@/config/site"
 
-import { Circle, Laptop, Moon, Sun } from "lucide-react"
+import { Circle, Laptop, Moon, Sun, Menu } from "lucide-react"
 import { useTheme } from "next-themes"
 import { DialogTitle } from "@radix-ui/react-dialog"
 
@@ -25,7 +25,12 @@ import { ThemeToggle } from "./components/theme-toggle"
 import { useConfigStore } from "@/stores"
 import SettingDialog from "./components/setting-dialog"
 
-export function SiteHeader() {
+// 定义 props 类型
+interface SiteHeaderProps {
+  onMenuClick: () => void;
+}
+
+export function SiteHeader({ onMenuClick }: SiteHeaderProps) {
   const [open, setOpen] = useState(false)
   const { setTheme } = useTheme()
   const runCommand = useCallback((command: () => void) => {
@@ -38,6 +43,18 @@ export function SiteHeader() {
   return (
     <header className="sticky top-0 z-40 w-full bg-background dark:border-slate-50/[0.06] lg:border-b lg:border-slate-900/10">
       <div className="container m-0 flex h-16 items-center space-x-4 sm:justify-between sm:space-x-0">
+        {/* 汉堡菜单按钮，只在 sm 以下屏幕显示 */}
+        <div className="flex items-center sm:hidden">
+          <Button
+            variant="ghost"
+            size="icon"
+            onClick={onMenuClick} // <--- 点击时触发父组件的函数
+            className="rounded-full"
+          >
+            <Menu className="h-5 w-5" />
+            <span className="sr-only">Toggle Menu</span>
+          </Button>
+        </div>
         <nav className="flex flex-1 items-center justify-end space-x-4">
           <div className="flex w-full items-center space-x-1 sm:w-auto">
             <Button
