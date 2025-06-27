@@ -29,7 +29,7 @@ export function LinkContent() {
             </div>
           )
         })}
-        <div className="mb-12">
+        <div id = "contact" className="mb-12">
           <div className="my-4">
             <h1 className="mb-2 text-2xl font-bold text-primary/80 sm:text-3xl">联系我</h1>
           </div>
